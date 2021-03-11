@@ -28,6 +28,12 @@ class RecipesController < ApplicationController
     redirect_to recipe_path(@recipe)
   end
 
+  def delete
+    @recipe = Recipe.find(params[:id])
+    recipe.destroy
+    redirect_to recipe_path
+  end
+
   private
   def recipe_params
     params.require(:recipe).permit(:title, :body, :image)
