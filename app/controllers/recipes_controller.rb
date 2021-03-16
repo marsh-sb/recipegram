@@ -15,12 +15,20 @@ class RecipesController < ApplicationController
   def create
     @recipe = Recipe.new(recipe_params)
     @recipe.user_id = current_user.id
-    @recipe.save
-    redirect_to recipe_path(@recipe)
+    if @recipe.save
+      redirect_to recipe_path(@recipe)
+    else
+      render :new
+    end
   end
 
   def edit
     @recipe = Recipe.find(params[:id])
+    if @recipe.user != current_user
+      redirect_to recipe_path, alert: '不正なアクセスです'
+    else
+      render :edit
+    end
   end
 
   def update
